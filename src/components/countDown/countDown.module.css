@@ -1,0 +1,19 @@
+.count_down {
+    display: flex;
+    border: 1px solid white;
+    width: 40%;
+    height: 10vw;
+    justify-content: center;
+}
+
+.count_down>div {
+    display: flex;
+    margin-top: auto;
+    margin-bottom: auto;
+    width: 100%;
+    justify-content: space-around;
+}
+
+.count_down div {
+    font-size: 2vw;
+}
