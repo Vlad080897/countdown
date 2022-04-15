@@ -19,7 +19,7 @@ const CountDown: React.FC = () => {
     const timeoutId = setTimeout(() => {
       const date = new Date(
         Number(history.location.search.length !== 0 ? data.Y : '2023'),
-        Number(history.location.search.length !== 0 ? data.M : '0'),
+        Number(history.location.search.length !== 0 ? data.M : '1') - 1,
         Number(history.location.search.length !== 0 ? data.D : '1'),
         Number(history.location.search.length !== 0 ? data.H : '0'),
       );

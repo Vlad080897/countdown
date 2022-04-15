@@ -65,7 +65,13 @@
         "no-param-reassign": "off",
         "linebreak-style": 0,
         "default-param-last": "off",
-        "arrow-body-style": "off"
+        "arrow-body-style": "off",
+        "no-trailing-spaces": [
+            "error",
+            {
+                "skipBlankLines": true
+            }
+        ]
     },
     "settings": {
         "import/resolver": {

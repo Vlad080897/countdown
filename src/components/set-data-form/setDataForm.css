@@ -11,3 +11,7 @@
 .data_form_container div span {
     font-size: 1.2vw;
 }
+
+.MuiSelect-iconStandard {
+    color: white;
+}

@@ -1,12 +1,14 @@
-/* eslint-disable import/no-unresolved */
-/* eslint-disable @typescript-eslint/no-var-requires */
-import {
-  Field, Form, Formik,
-} from 'formik';
-import React from 'react';
+/* eslint-disable no-debugger */
+import { FormControl, InputLabel, MenuItem } from '@mui/material';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { CSSProperties } from '@mui/styled-engine';
+import { Box } from '@mui/system';
+import { Form, Formik } from 'formik';
+import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import s from './setDataForm.module.css';
-
+import './setDataForm.css';
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const queryString = require('query-string');
 
 const countOptions = (amount: number, incremet: number) => {
@@ -14,7 +16,7 @@ const countOptions = (amount: number, incremet: number) => {
   for (let index = amount; index < (amount + incremet); index += 1) {
     arrayOfAmount.push(index);
   }
-  const finallArray = arrayOfAmount.map((year) => <option value={year}>{year}</option>);
+  const finallArray = arrayOfAmount.map((el) => <MenuItem key={el} value={el}>{el}</MenuItem>);
   return finallArray;
 };
 
@@ -25,60 +27,74 @@ const allHours = countOptions(0, 25);
 
 export const SetDataForm: React.FC = () => {
   const history = useHistory();
-  const data = queryString.parse(history.location.search.substr(1));
+  const data: DataType = queryString.parse(history.location.search.substr(1));
+  const [year, setYear] = useState<string>('2023');
+  const [month, setMonth] = useState<string>('1');
+  const [day, setDay] = useState<string>('1');
+  const [hour, setHour] = useState<string>('0');
+
+  const cellStyles = {
+    marginRight: 5,
+    color: 'white',
+    borderColor: '1px solid  white',
+    '& .MuiSelect-iconFilled': {
+      color: 'white',
+    },
+  };
+
   return (
     <div>
       <h1>Your Date</h1>
       <Formik
-        initialValues={{
-          year: history.location.search.length === 0 ? '2023' : data.Y,
-          month: history.location.search.length === 0 ? '0' : data.M,
-          day: history.location.search.length === 0 ? '1' : data.D,
-          hour: history.location.search.length === 0 ? '00' : data.H,
-        }}
-        onSubmit={(values: IValueProps) => {
+        initialValues={{}}
+        onSubmit={() => {
           history.push({
             pathname: '/count',
-            search: `?Y=${values.year}&M=${values.month}&D=${values.day}&H=${values.hour}`,
+            search: `?Y=${year}&M=${month}&D=${day}&H=${hour}`,
           });
         }}
       >
         {() => (
-          <Form>
-            <div className={s.data_form_container}>
-              <div>
-                <Field as="select" name="year">
+          <Box sx={{ minWidth: 0 }}>
+            <Form>
+              <FormControl size="small" margin="normal" sx={{ flexDirection: 'row' }}>
+                <Select
+                  variant="filled"
+                  sx={cellStyles}
+                  value={year}
+                  onChange={(e: SelectChangeEvent) => setYear(e.target.value)}
+                >
                   {allYears}
-                </Field>
-                <br />
-                <span>Year</span>
-              </div>
-              <div>
-                <Field as="select" name="month">
+                </Select>
+                <InputLabel id="demo-simple-select-label">Age</InputLabel>
+                <Select
+                  variant="filled"
+                  sx={cellStyles}
+                  value={month}
+                  onChange={(e: SelectChangeEvent) => setMonth(e.target.value)}
+                >
                   {allMonth}
-                </Field>
-                <br />
-                <span>Month</span>
-              </div>
-              <div>
-                <Field as="select" name="day">
+                </Select>
+                <Select
+                  variant="filled"
+                  sx={cellStyles}
+                  value={day}
+                  onChange={(e: SelectChangeEvent) => setDay(e.target.value)}
+                >
                   {allDays}
-                </Field>
-                <br />
-                <span>Day</span>
-              </div>
-              <div>
-                <Field as="select" name="hour">
+                </Select>
+                <Select
+                  variant="filled"
+                  sx={cellStyles}
+                  value={hour}
+                  onChange={(e: SelectChangeEvent) => setHour(e.target.value)}
+                >
                   {allHours}
-                </Field>
-                <br />
-                <span>Hour</span>
-              </div>
-              <div>
+                </Select>
                 <button type="submit">Set Date</button>
-              </div>
-            </div>
-          </Form>
+              </FormControl>
+            </Form>
+          </Box>
         )}
       </Formik>
     </div>
@@ -90,4 +106,11 @@ type IValueProps = {
   month: string
   day: string
   hour: string
+}
+
+type DataType = {
+  Y: string,
+  M: string,
+  D: string,
+  H: string,
 }
